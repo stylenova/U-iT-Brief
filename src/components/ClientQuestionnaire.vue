@@ -482,15 +482,26 @@ export default {
       if (!this.validate()) return;
       const apiUrl = 'https://v1.nocodeapi.com/stylenova/telegram/GnNGVfrFyUpLIQxD';
       const f = this.form;
-      const message = `\n<b>${this.t('briefTitle')}</b>\n${this.t('fullName')}: ${f.fullName}\nEmail: ${f.email}\n${this.t('phone')}: ${f.phoneOrMessenger}\n${this.t('company')}: ${f.company}\n${this.t('aboutCompany')}: ${f.aboutCompany}\n${this.t('goals')}: ${f.goals}\n${this.t('siteType')}: ${f.siteType === 'Другое' ? f.siteTypeOther : f.siteType}\n${this.t('features')}: ${(f.features || []).join(', ')}${f.featuresOther ? ' (' + f.featuresOther + ')' : ''}\n${this.t('designPreferences')}: ${f.designPreferences}\n${this.t('references')}: ${f.references}\n${this.t('pages')}: ${(f.pages || []).join(', ')}${f.pagesOther ? ' (' + f.pagesOther + ')' : ''}\n${this.t('content')}: ${(f.content || []).join(', ')}\n${this.t('audience')}: ${f.audience}\n${this.t('tech')}: ${f.tech}\n${this.t('budget')}: ${f.budget}\n${this.t('deadline')}: ${f.deadline}\n${this.t('startDate')}: ${f.startDate}\n${this.t('support')}: ${f.support === 'Другое' ? f.supportOther : f.support}\n${this.t('comments')}: ${f.comments}`;
+      // Формируем списки для Telegram
+      const featuresList = (f.features || []).map(val => `• ${this.t(val)}`).join('\n');
+      const pagesList = (f.pages || []).map(val => `• ${this.t(val)}`).join('\n');
+      const contentList = (f.content || []).map(val => `• ${this.t(val)}`).join('\n');
+      // Языковой шаблон
+      let message = '';
+      if (this.lang === 'ua') {
+        message =
+    `<b>📝 Бриф на розробку сайту</b>\n\n<b>👤 Контактні дані</b>\nПІБ: <b>${f.fullName}</b>\nEmail: <b>${f.email}</b>\nТелефон/месенджер: <b>${f.phoneOrMessenger}</b>\nКомпанія/проєкт: ${f.company || '-'}\n\n<b>ℹ️ Про компанію/проєкт</b>\n${f.aboutCompany || '-'}\n\n<b>🎯 Цілі та задачі</b>\n${f.goals || '-'}\n\n<b>🌐 Тип сайту</b>\n${f.siteType === 'other' ? f.siteTypeOther : this.t(f.siteType)}\n\n<b>⚙️ Функціонал</b>\n${featuresList}${f.featuresOther ? `\nІнше: ${f.featuresOther}` : ''}\n\n<b>🎨 Дизайн та референси</b>\nПобажання: ${f.designPreferences || '-'}\nРеференси: ${f.references || '-'}\n\n<b>📄 Сторінки</b>\n${pagesList}${f.pagesOther ? `\nІнше: ${f.pagesOther}` : ''}\n\n<b>🖼️ Контент</b>\n${contentList || '-'}\n\n<b>👥 Цільова аудиторія</b>\n${f.audience || '-'}\n\n<b>🛠️ Технічні вимоги</b>\n${f.tech || '-'}\n\n<b>💰 Бюджет</b>: ${f.budget || '-'}\n<b>⏳ Термін</b>: ${f.deadline || '-'}\n<b>📅 Дата старту</b>: ${f.startDate || '-'}\n\n<b>🤝 Підтримка</b>\n${f.support === 'other' ? f.supportOther : this.t(f.support)}\n\n<b>💬 Додаткові коментарі</b>\n${f.comments || '-'}`;
+      } else {
+        message =
+    `<b>📝 Бриф на разработку сайта</b>\n\n<b>👤 Контактные данные</b>\nФИО: <b>${f.fullName}</b>\nEmail: <b>${f.email}</b>\nТелефон/мессенджер: <b>${f.phoneOrMessenger}</b>\nКомпания/проект: ${f.company || '-'}\n\n<b>ℹ️ О компании/проекте</b>\n${f.aboutCompany || '-'}\n\n<b>🎯 Цели и задачи</b>\n${f.goals || '-'}\n\n<b>🌐 Тип сайта</b>\n${f.siteType === 'other' ? f.siteTypeOther : this.t(f.siteType)}\n\n<b>⚙️ Функционал</b>\n${featuresList}${f.featuresOther ? `\nДругое: ${f.featuresOther}` : ''}\n\n<b>🎨 Дизайн и референсы</b>\nПожелания: ${f.designPreferences || '-'}\nРеференсы: ${f.references || '-'}\n\n<b>📄 Страницы</b>\n${pagesList}${f.pagesOther ? `\nДругое: ${f.pagesOther}` : ''}\n\n<b>🖼️ Контент</b>\n${contentList || '-'}\n\n<b>👥 Целевая аудитория</b>\n${f.audience || '-'}\n\n<b>🛠️ Технические требования</b>\n${f.tech || '-'}\n\n<b>💰 Бюджет</b>: ${f.budget || '-'}\n<b>⏳ Сроки</b>: ${f.deadline || '-'}\n<b>📅 Дата старта</b>: ${f.startDate || '-'}\n\n<b>🤝 Поддержка</b>\n${f.support === 'other' ? f.supportOther : this.t(f.support)}\n\n<b>💬 Дополнительные комментарии</b>\n${f.comments || '-'}`;
+      }
 
       try {
         const response = await fetch(apiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            text: message,
-            parse_mode: 'HTML'
+            Title: message
           })
         });
         if (response.ok) {
@@ -499,7 +510,7 @@ export default {
           setTimeout(() => {
             this.showPopup = false;
             window.location.href = '/thanks.html';
-          }, 10000);
+          }, 3000);
         } else {
           alert(this.t('errSend') || 'Ошибка отправки. Попробуйте позже.');
         }
