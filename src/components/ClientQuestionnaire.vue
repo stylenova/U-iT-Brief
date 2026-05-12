@@ -8,13 +8,13 @@
     <form @submit.prevent="submitForm">
       <div class="section">
         <h3>1. {{ t('contactsTitle') }}</h3>
-        <label>{{ t('fullName') }} *</label>
+        <label>{{ t('fullName') }} <span class="required">*</span></label>
         <input type="text" v-model="form.fullName" :placeholder="t('fullNamePh')" required />
         <div v-if="errors.fullName" class="error">{{ errors.fullName }}</div>
-        <label>{{ t('email') }} *</label>
+        <label>{{ t('email') }} <span class="required">*</span></label>
         <input type="email" v-model="form.email" :placeholder="t('emailPh')" required />
         <div v-if="errors.email" class="error">{{ errors.email }}</div>
-        <label>{{ t('phone') }} *</label>
+        <label>{{ t('phone') }} <span class="required">*</span></label>
         <input type="text" v-model="form.phoneOrMessenger" :placeholder="t('phonePh')" required />
         <div v-if="errors.phoneOrMessenger" class="error">{{ errors.phoneOrMessenger }}</div>
         <label>{{ t('company') }}</label>
@@ -23,14 +23,14 @@
         <textarea v-model="form.aboutCompany" :placeholder="t('aboutCompanyPh')"></textarea>
       </div>
       <div class="section">
-        <h3>3. {{ t('goals') }} <span style="color:red">*</span></h3>
+        <h3>3. {{ t('goals') }} <span class="required">*</span></h3>
         <textarea v-model="form.goals" :placeholder="t('goalsPh')"></textarea>
         <div v-if="errors.goals" class="error">{{ errors.goals }}</div>
       </div>
 
 
     <div class="section">
-      <h3>4. {{ t('siteType') }} <span style="color:red">*</span></h3>
+      <h3>4. {{ t('siteType') }} <span class="required">*</span></h3>
       <select v-model="form.siteType" required>
         <option disabled value="">{{ t('chooseSiteType') }}</option>
         <option v-for="key in ['siteTypeShop','siteTypeCorp','siteTypeBlog','siteTypeLanding','siteTypePortal','siteTypeCard','other']" :key="key" :value="key">{{ t(key) }}</option>
@@ -42,7 +42,7 @@
 
 
     <div class="section">
-      <h3>5. {{ t('features') }} <span style="color:red">*</span></h3>
+      <h3>5. {{ t('features') }} <span class="required">*</span></h3>
       <div class="checkbox-group">
         <div v-for="option in featuresOptions" :key="option.value" class="checkbox-inline">
           <input type="checkbox" :id="option.value" :value="option.value" v-model="form.features" />
@@ -59,15 +59,15 @@
 
     <div class="section">
       <h3>6. {{ t('designTitle') }}</h3>
-      <label>{{ t('designPreferences') }} <span style="color:red">*</span></label>
+      <label>{{ t('designPreferences') }} <span class="required">*</span></label>
       <textarea v-model="form.designPreferences" required :placeholder="t('designPreferencesPh')"></textarea>
-      <label>{{ t('references') }} <span style="color:red">*</span></label>
+      <label>{{ t('references') }} <span class="required">*</span></label>
       <textarea v-model="form.references" required :placeholder="t('referencesPh')"></textarea>
     </div>
 
 
     <div class="section">
-      <h3>7. {{ t('pages') }} <span style="color:red">*</span></h3>
+      <h3>7. {{ t('pages') }} <span class="required">*</span></h3>
       <div class="checkbox-group">
         <div v-for="option in pagesOptions" :key="option.value" class="checkbox-inline">
           <input type="checkbox" :id="option.value" :value="option.value" v-model="form.pages" />
@@ -83,7 +83,7 @@
 
 
     <div class="section">
-      <h3>8. {{ t('content') }} <span style="color:red">*</span></h3>
+      <h3>8. {{ t('content') }} <span class="required">*</span></h3>
       <div class="checkbox-group">
         <div v-for="option in contentOptions" :key="option.value" class="checkbox-inline">
           <input type="checkbox" :id="option.value" :value="option.value" v-model="form.content" />
@@ -98,7 +98,7 @@
 
 
     <div class="section">
-      <h3>9. {{ t('audience') }} <span style="color:red">*</span></h3>
+      <h3>9. {{ t('audience') }} <span class="required">*</span></h3>
       <textarea v-model="form.audience" required :placeholder="t('audiencePh')"></textarea>
     </div>
 
@@ -111,9 +111,9 @@
 
     <div class="section">
       <h3>11. {{ lang === 'ru' ? 'Бюджет и сроки' : 'Бюджет і терміни' }}</h3>
-      <label>{{ lang === 'ru' ? 'Бюджет' : 'Бюджет' }} <span style="color:red">*</span></label>
+      <label>{{ lang === 'ru' ? 'Бюджет' : 'Бюджет' }} <span class="required">*</span></label>
       <input type="text" v-model="form.budget" required :placeholder="lang === 'ru' ? 'Укажите сумму или диапазон' : 'Вкажіть суму або діапазон'" />
-      <label>{{ lang === 'ru' ? 'Сроки' : 'Терміни' }} <span style="color:red">*</span></label>
+      <label>{{ lang === 'ru' ? 'Сроки' : 'Терміни' }} <span class="required">*</span></label>
       <input type="text" v-model="form.deadline" required :placeholder="lang === 'ru' ? 'Например: 2 месяца' : 'Наприклад: 2 місяці'" />
       <label>{{ lang === 'ru' ? 'Дата старта' : 'Дата старту' }}</label>
       <input type="date" v-model="form.startDate" />
@@ -690,5 +690,12 @@ textarea {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .required {
+    color: #e53935;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-left: 2px;
+    vertical-align: middle;
   }
 </style>
