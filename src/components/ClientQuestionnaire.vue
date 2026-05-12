@@ -103,38 +103,38 @@
     </div>
 
     <div class="section">
-      <h3>10. {{ t('techTitle') }}</h3>
-      <label>{{ t('techLabel') }}</label>
-      <textarea v-model="form.tech" :placeholder="t('techPh')"></textarea>
+      <h3>10. {{ lang === 'ru' ? 'Мультиязычность, адаптивность, SEO, интеграции' : t('techTitle') }}</h3>
+      <label>{{ lang === 'ru' ? 'Мультиязычность, адаптивность, SEO, интеграции' : t('techLabel') }}</label>
+      <textarea v-model="form.tech" :placeholder="lang === 'ru' ? 'Например: мобильная версия, языки, интеграции с CRM, SEO, аналитика и т.д.' : t('techPh')"></textarea>
     </div>
 
 
     <div class="section">
-      <h3>11. {{ t('budgetTitle') }}</h3>
-      <label>{{ t('budget') }} <span style="color:red">*</span></label>
-      <input type="text" v-model="form.budget" required :placeholder="t('budgetPh')" />
-      <label>{{ t('deadline') }} <span style="color:red">*</span></label>
-      <input type="text" v-model="form.deadline" required :placeholder="t('deadlinePh')" />
-      <label>{{ t('startDate') }}</label>
+      <h3>11. {{ lang === 'ru' ? 'Бюджет и сроки' : 'Бюджет і терміни' }}</h3>
+      <label>{{ lang === 'ru' ? 'Бюджет' : 'Бюджет' }} <span style="color:red">*</span></label>
+      <input type="text" v-model="form.budget" required :placeholder="lang === 'ru' ? 'Укажите сумму или диапазон' : 'Вкажіть суму або діапазон'" />
+      <label>{{ lang === 'ru' ? 'Сроки' : 'Терміни' }} <span style="color:red">*</span></label>
+      <input type="text" v-model="form.deadline" required :placeholder="lang === 'ru' ? 'Например: 2 месяца' : 'Наприклад: 2 місяці'" />
+      <label>{{ lang === 'ru' ? 'Дата старта' : 'Дата старту' }}</label>
       <input type="date" v-model="form.startDate" />
     </div>
 
     <div class="section">
       <h3>12. {{ t('supportTitle') }}</h3>
       <select v-model="form.support" required>
-        <option disabled value="">{{ t('chooseSupport') }}</option>
+        <option disabled value="">{{ lang === 'ru' ? 'Выберите вариант' : t('chooseSupport') }}</option>
         <option value="supportYes">{{ t('supportYes') }}</option>
         <option value="supportNo">{{ t('supportNo') }}</option>
         <option value="other">{{ t('other') }}</option>
       </select>
       <div v-if="form.support === 'other'">
-        <input type="text" v-model="form.supportOther" :placeholder="t('describePh')" />
+        <input type="text" v-model="form.supportOther" :placeholder="lang === 'ru' ? 'Опишите' : t('describePh')" />
       </div>
     </div>
 
     <div class="section">
       <h3>13. {{ t('commentsTitle') }}</h3>
-      <textarea v-model="form.comments" :placeholder="t('commentsPh')"></textarea>
+      <textarea v-model="form.comments" :placeholder="lang === 'ru' ? 'Любые дополнительные пожелания, интеграции, особые требования' : t('commentsPh')"></textarea>
     </div>
 
     <button type="submit">{{ t('sendBtn') || 'Отправить' }}</button>
@@ -249,16 +249,16 @@ export default {
           designPreferencesPh: 'Опишите ваши пожелания по стилю, цветам, атмосфере',
           references: 'Референсы',
           referencesPh: 'Вставьте ссылки и опишите, что именно нравится',
-          pages: 'Страницы',
-          content: 'Контент',
           audiencePh: 'Возраст, интересы, география',
-          techLabel: 'Мультиязычность, адаптивность, SEO, интеграции',
-          techPh: 'Например: мобильная версия, языки, интеграции с CRM, SEO, аналитика и т.д.',
+          techLabel: 'Мультимовність, адаптивність, SEO, інтеграції',
+          techPh: 'Например: мобільна версія, мови, інтеграції з CRM, SEO, аналітика тощо.',
           budgetPh: 'Вкажіть суму або діапазон',
           deadlinePh: 'Наприклад: 2 місяці',
+          startDate: 'Дата старту',
+          support: 'Поддержка',
           chooseSupport: 'Оберіть варіант',
-          supportYes: 'Так',
-          supportNo: 'Ні',
+          supportYes: 'Да',
+          supportNo: 'Нет',
           commentsPh: 'Будь-які додаткові побажання, інтеграції, особливі вимоги',
           sendBtn: 'Отправить',
           errFullName: 'Укажите ФИО',
@@ -278,7 +278,7 @@ export default {
           siteTypeBlog: 'Блог',
           siteTypeLanding: 'Лендінг',
           siteTypePortal: 'Портал',
-          siteTypeCard: 'Сайт-визитка',
+          siteTypeCard: 'Сайт-візитка',
           siteTypeOtherPh: 'Уточніть тип сайту',
           basket: 'Кошик',
           payment: 'Онлайн-оплата',
@@ -315,7 +315,6 @@ export default {
           budgetTitle: 'Бюджет і терміни',
           supportTitle: 'Підтримка після запуску',
           commentsTitle: 'Додаткові коментарі',
-          // Остальні ключі
           briefTitle: 'Бриф на розробку сайту',
           fullName: 'ПІБ',
           fullNamePh: 'Ваше ім’я та прізвище',
@@ -325,23 +324,23 @@ export default {
           phonePh: '+380... або @username',
           company: 'Компанія/проєкт',
           companyPh: 'Назва компанії або проєкту (якщо є)',
-          aboutCompany: 'Про компанію/проєкт',
           aboutCompanyPh: 'Коротко опишіть сферу діяльності, особливості, переваги',
-          goals: 'Цілі та задачі сайту',
           goalsPh: 'Навіщо потрібен сайт? Які задачі має вирішувати?',
-          siteType: 'Тип сайту',
-          features: 'Функціонал',
           designPreferences: 'Дизайн',
+          designPreferencesPh: 'Опишіть ваші побажання по стилю, кольорам, атмосфері',
           references: 'Референси',
-          pages: 'Сторінки',
-          content: 'Контент',
-          audience: 'Цільова аудиторія',
-          tech: 'Технічні вимоги',
-          budget: 'Бюджет',
-          deadline: 'Терміни',
+          referencesPh: 'Вставте посилання і опишіть, що саме подобається',
+          audiencePh: 'Вік, інтереси, географія',
+          techLabel: 'Мультимовність, адаптивність, SEO, інтеграції',
+          techPh: 'Наприклад: мобільна версія, мови, інтеграції з CRM, SEO, аналітика тощо.',
+          budgetPh: 'Вкажіть суму або діапазон',
+          deadlinePh: 'Наприклад: 2 місяці',
           startDate: 'Дата старту',
           support: 'Підтримка',
-          comments: 'Коментарі',
+          chooseSupport: 'Оберіть варіант',
+          supportYes: 'Так',
+          supportNo: 'Ні',
+          commentsPh: 'Будь-які додаткові побажання, інтеграції, особливі вимоги',
           sendBtn: 'Відправити',
           errFullName: 'Вкажіть ПІБ',
           errEmail: 'Введіть коректний email',
@@ -349,7 +348,7 @@ export default {
           errGoals: 'Опишіть цілі та задачі',
           popupTitle: 'Дякуємо за заявку!',
           popupText: 'Ваша заявка відправлена. Ми зв’яжемося з вами найближчим часом і підготуємо індивідуальну пропозицію для вашого проєкту.'
-        }
+        },
       },
       errors: {},
       showPopup: false,
@@ -444,9 +443,7 @@ export default {
           // Автоматическое закрытие попапа через 10 секунд и редирект
           setTimeout(() => {
             this.showPopup = false;
-            this.$router
-              ? this.$router.push('/thanks')
-              : (window.location.href = '/thanks');
+            window.location.href = '/thanks.html';
           }, 10000);
         } else {
           alert(this.t('errSend') || 'Ошибка отправки. Попробуйте позже.');
