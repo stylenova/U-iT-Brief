@@ -18,7 +18,7 @@ export default {
 <style>
 body {
   font-family: 'Segoe UI', 'Arial', sans-serif;
-  background: #eef2f3;
+  background: #fff;
   margin: 0;
   padding: 0;
 }

@@ -6,6 +6,17 @@
       </div>
     </header>
     <form @submit.prevent="submitForm">
+      <div class="brief-header">
+        <h1 class="brief-title">U-iT Бриф</h1>
+        <div class="brief-desc">
+          <template v-if="lang === 'ua'">
+            Заповніть цей бриф, щоб ми могли краще зрозуміти ваші цілі, задачі та побажання для майбутнього сайту. Це допоможе нам підготувати для вас найкращу пропозицію.
+          </template>
+          <template v-else-if="lang === 'ru'">
+            Заполните этот бриф, чтобы мы могли лучше понять ваши цели, задачи и пожелания для будущего сайта. Это поможет нам подготовить для вас наилучшее предложение.
+          </template>
+        </div>
+      </div>
       <div class="section">
         <h3>1. {{ t('contactsTitle') }}</h3>
         <label>{{ t('fullName') }} <span class="required">*</span></label>
@@ -269,6 +280,8 @@ export default {
           popupText: 'Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время и подготовим индивидуальное предложение для вашего проекта.'
         },
         ua: {
+                    briefDesc: 'Заповніть цей бриф, щоб ми могли краще зрозуміти ваші цілі, задачі та побажання для майбутнього сайту. Це допоможе нам підготувати для вас найкращу пропозицію.',
+                    briefDesc: 'Заполните этот бриф, чтобы мы могли лучше понять ваши цели, задачи и пожелания для будущего сайта. Это поможет нам подготовить для вас наилучшее предложение.',
           other: 'Інше',
           describePh: 'Опишіть',
           contentHelp: 'Якщо чогось немає, потрібна допомога у створенні?',
@@ -565,7 +578,7 @@ form {
   padding: 32px 48px;
   background: #fff;
   border-radius: 18px;
-  box-shadow: 0 4px 32px rgba(60, 60, 60, 0.10);
+  box-shadow: 0 2px 8px rgba(60, 60, 60, 0.06);
   border: 1px solid #e5e7eb;
 }
 
@@ -683,19 +696,39 @@ textarea {
 }
   .header-bar {
     width: 100vw;
-    background: #f7fafd;
-    box-shadow: 0 2px 8px rgba(60,60,60,0.04);
+    background: transparent;
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: none;
     padding: 18px 0 10px 0;
     margin-bottom: 18px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  .required {
+  .required {        
     color: #e53935;
     font-weight: bold;
     font-size: 1.2em;
     margin-left: 2px;
     vertical-align: middle;
+  }
+
+  .brief-title {
+  	font-size: 2.1rem;
+  	font-weight: 800;
+  	display: block;
+  	margin: 0.2em auto 0.2em auto;
+  	letter-spacing: 0.01em;
+  	color: #1a1a1a;
+  	text-align: center;
+  }
+
+  .brief-desc {
+  	display: block;
+  	text-align: center;
+  	font-size: 1.13rem;
+  	color: #444;
+  	margin: 0 auto 1.2em auto;
+  	font-weight: 400;
   }
 </style>
