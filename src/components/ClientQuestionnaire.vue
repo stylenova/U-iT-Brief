@@ -154,7 +154,7 @@
 export default {
   data() {
     return {
-      lang: 'ru',
+      lang: 'ua',
       langs: ['ua', 'ru'],
       featuresOptions: [
         { label: 'basket', value: 'basket' },
