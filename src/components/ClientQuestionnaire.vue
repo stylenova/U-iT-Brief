@@ -374,35 +374,77 @@ export default {
         supportOther: '',
         comments: '',
       },
-      featuresOptions: [
-        { label: 'Корзина', value: 'basket' },
-        { label: 'Онлайн-оплата', value: 'payment' },
-        { label: 'Отзывы', value: 'reviews' },
-        { label: 'Контактная форма', value: 'contact' },
-        { label: 'Калькулятор', value: 'calculator' },
-        { label: 'Личный кабинет', value: 'account' },
-        { label: 'Фильтры для поиска', value: 'filters' },
-      ],
-      pagesOptions: [
-        { label: 'Главная', value: 'home' },
-        { label: 'О нас', value: 'about' },
-        { label: 'Контакты', value: 'contacts' },
-        { label: 'Блог', value: 'blog' },
-        { label: 'Каталог', value: 'catalog' },
-        { label: 'Карточка товара', value: 'product' },
-        { label: 'Корзина', value: 'basket' },
-        { label: 'Оформление заказа', value: 'order' },
-        { label: 'Личный кабинет', value: 'account' },
-        { label: 'Политика конфиденциальности', value: 'privacy' },
-        { label: 'Политика возврата', value: 'return' },
-        { label: '404', value: '404' },
-      ],
-      contentOptions: [
-        { label: 'Логотип', value: 'logo' },
-        { label: 'Тексты', value: 'texts' },
-        { label: 'Изображения', value: 'images' },
-        { label: 'Видео', value: 'video' },
-      ],
+      // ...existing code...
+      // Опции теперь вычисляются через computed
+      computed: {
+        featuresOptions() {
+          return this.lang === 'ua'
+            ? [
+                { label: 'Кошик', value: 'basket' },
+                { label: 'Онлайн-оплата', value: 'payment' },
+                { label: 'Відгуки', value: 'reviews' },
+                { label: 'Контактна форма', value: 'contactForm' },
+                { label: 'Калькулятор', value: 'calculator' },
+                { label: 'Особистий кабінет', value: 'account' },
+                { label: 'Фільтри для пошуку', value: 'filters' },
+              ]
+            : [
+                { label: 'Корзина', value: 'basket' },
+                { label: 'Онлайн-оплата', value: 'payment' },
+                { label: 'Отзывы', value: 'reviews' },
+                { label: 'Контактная форма', value: 'contactForm' },
+                { label: 'Калькулятор', value: 'calculator' },
+                { label: 'Личный кабинет', value: 'account' },
+                { label: 'Фильтры для поиска', value: 'filters' },
+              ];
+        },
+        pagesOptions() {
+          return this.lang === 'ua'
+            ? [
+                { label: 'Головна', value: 'home' },
+                { label: 'Про нас', value: 'about' },
+                { label: 'Контакти', value: 'contacts' },
+                { label: 'Блог', value: 'blog' },
+                { label: 'Каталог', value: 'catalog' },
+                { label: 'Картка товару', value: 'product' },
+                { label: 'Кошик', value: 'basket' },
+                { label: 'Оформлення замовлення', value: 'order' },
+                { label: 'Особистий кабінет', value: 'account' },
+                { label: 'Політика конфіденційності', value: 'privacy' },
+                { label: 'Політика повернення', value: 'return' },
+                { label: '404', value: '404' },
+              ]
+            : [
+                { label: 'Главная', value: 'home' },
+                { label: 'О нас', value: 'about' },
+                { label: 'Контакты', value: 'contacts' },
+                { label: 'Блог', value: 'blog' },
+                { label: 'Каталог', value: 'catalog' },
+                { label: 'Карточка товара', value: 'product' },
+                { label: 'Корзина', value: 'basket' },
+                { label: 'Оформление заказа', value: 'order' },
+                { label: 'Личный кабинет', value: 'account' },
+                { label: 'Политика конфиденциальности', value: 'privacy' },
+                { label: 'Политика возврата', value: 'return' },
+                { label: '404', value: '404' },
+              ];
+        },
+        contentOptions() {
+          return this.lang === 'ua'
+            ? [
+                { label: 'Логотип', value: 'logo' },
+                { label: 'Тексти', value: 'texts' },
+                { label: 'Зображення', value: 'images' },
+                { label: 'Відео', value: 'video' },
+              ]
+            : [
+                { label: 'Логотип', value: 'logo' },
+                { label: 'Тексты', value: 'texts' },
+                { label: 'Изображения', value: 'images' },
+                { label: 'Видео', value: 'video' },
+              ];
+        },
+      },
     };
   },
   methods: {
