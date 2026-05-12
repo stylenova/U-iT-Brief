@@ -33,9 +33,9 @@
       <h3>4. {{ t('siteType') }} <span style="color:red">*</span></h3>
       <select v-model="form.siteType" required>
         <option disabled value="">{{ t('chooseSiteType') }}</option>
-        <option v-for="key in ['siteTypeShop','siteTypeCorp','siteTypeBlog','siteTypeLanding','siteTypePortal','other']" :key="key" :value="key">{{ t(key) }}</option>
+        <option v-for="key in ['siteTypeShop','siteTypeCorp','siteTypeBlog','siteTypeLanding','siteTypePortal','siteTypeCard','other']" :key="key" :value="key">{{ t(key) }}</option>
       </select>
-      <div v-if="form.siteType === t('other')">
+      <div v-if="form.siteType === 'other'">
         <input type="text" v-model="form.siteTypeOther" :placeholder="t('siteTypeOtherPh')" />
       </div>
     </div>
@@ -127,7 +127,7 @@
         <option value="supportNo">{{ t('supportNo') }}</option>
         <option value="other">{{ t('other') }}</option>
       </select>
-      <div v-if="form.support === t('other')">
+      <div v-if="form.support === 'other'">
         <input type="text" v-model="form.supportOther" :placeholder="t('describePh')" />
       </div>
     </div>
@@ -187,6 +187,17 @@ export default {
       ],
       translations: {
         ru: {
+          other: 'Другое',
+          describePh: 'Опишите',
+          contentHelp: 'Если чего-то нет, нужна ли помощь в создании?',
+          chooseSiteType: 'Выберите тип сайта',
+          siteTypeShop: 'Интернет-магазин',
+          siteTypeCorp: 'Корпоративный сайт',
+          siteTypeBlog: 'Блог',
+          siteTypeLanding: 'Лендинг',
+          siteTypePortal: 'Портал',
+          siteTypeCard: 'Сайт-визитка',
+          siteTypeOtherPh: 'Уточните тип сайта',
           basket: 'Корзина',
           payment: 'Онлайн-оплата',
           reviews: 'Отзывы',
@@ -243,17 +254,12 @@ export default {
           audiencePh: 'Возраст, интересы, география',
           techLabel: 'Мультиязычность, адаптивность, SEO, интеграции',
           techPh: 'Например: мобильная версия, языки, интеграции с CRM, SEO, аналитика и т.д.',
-          budget: 'Бюджет',
-          budgetPh: 'Укажите сумму или диапазон',
-          deadline: 'Сроки',
-          deadlinePh: 'Например: 2 месяца',
-          startDate: 'Дата старта',
-          support: 'Поддержка',
-          chooseSupport: 'Выберите вариант',
-          supportYes: 'Да',
-          supportNo: 'Нет',
-          comments: 'Комментарии',
-          commentsPh: 'Любые дополнительные пожелания, интеграции, особые требования',
+          budgetPh: 'Вкажіть суму або діапазон',
+          deadlinePh: 'Наприклад: 2 місяці',
+          chooseSupport: 'Оберіть варіант',
+          supportYes: 'Так',
+          supportNo: 'Ні',
+          commentsPh: 'Будь-які додаткові побажання, інтеграції, особливі вимоги',
           sendBtn: 'Отправить',
           errFullName: 'Укажите ФИО',
           errEmail: 'Введите корректный email',
@@ -263,30 +269,39 @@ export default {
           popupText: 'Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время и подготовим индивидуальное предложение для вашего проекта.'
         },
         ua: {
-                              basket: 'Кошик',
-                              payment: 'Онлайн-оплата',
-                              reviews: 'Відгуки',
-                              contactForm: 'Контактна форма',
-                              calculator: 'Калькулятор',
-                              account: 'Особистий кабінет',
-                              filters: 'Фільтри для пошуку',
-                              home: 'Головна',
-                              about: 'Про нас',
-                              contacts: 'Контакти',
-                              blog: 'Блог',
-                              catalog: 'Каталог',
-                              product: 'Картка товару',
-                              order: 'Оформлення замовлення',
-                              privacy: 'Політика конфіденційності',
-                              return: 'Політика повернення',
-                              logo: 'Логотип',
-                              texts: 'Тексти',
-                              images: 'Зображення',
-                              video: 'Відео',
-                              '404': '404',
-                    other: 'Інше',
-                    describePh: 'Опишіть',
-                    contentHelp: 'Якщо чогось немає, потрібна допомога у створенні?',
+          other: 'Інше',
+          describePh: 'Опишіть',
+          contentHelp: 'Якщо чогось немає, потрібна допомога у створенні?',
+          chooseSiteType: 'Оберіть тип сайту',
+          siteTypeShop: 'Інтернет-магазин',
+          siteTypeCorp: 'Корпоративний сайт',
+          siteTypeBlog: 'Блог',
+          siteTypeLanding: 'Лендінг',
+          siteTypePortal: 'Портал',
+          siteTypeCard: 'Сайт-визитка',
+          siteTypeOtherPh: 'Уточніть тип сайту',
+          basket: 'Кошик',
+          payment: 'Онлайн-оплата',
+          reviews: 'Відгуки',
+          contactForm: 'Контактна форма',
+          calculator: 'Калькулятор',
+          account: 'Особистий кабінет',
+          filters: 'Фільтри для пошуку',
+          home: 'Головна',
+          about: 'Про нас',
+          contacts: 'Контакти',
+          blog: 'Блог',
+          catalog: 'Каталог',
+          product: 'Картка товару',
+          order: 'Оформлення замовлення',
+          privacy: 'Політика конфіденційності',
+          return: 'Політика повернення',
+          logo: 'Логотип',
+          texts: 'Тексти',
+          images: 'Зображення',
+          video: 'Відео',
+          '404': '404',
+          // Секции
           contactsTitle: 'Контактні дані',
           aboutCompany: 'Про компанію/проєкт',
           goals: 'Цілі та задачі сайту',
@@ -300,25 +315,7 @@ export default {
           budgetTitle: 'Бюджет і терміни',
           supportTitle: 'Підтримка після запуску',
           commentsTitle: 'Додаткові коментарі',
-          chooseSiteType: 'Оберіть тип сайту',
-          siteTypeShop: 'Інтернет-магазин',
-          siteTypeCorp: 'Корпоративний сайт',
-          siteTypeBlog: 'Блог',
-          siteTypeLanding: 'Лендінг',
-          siteTypePortal: 'Портал',
-          siteTypeOtherPh: 'Уточніть тип сайту',
-          designPreferencesPh: 'Опишіть ваші побажання по стилю, кольорам, атмосфері',
-          referencesPh: 'Вставте посилання і опишіть, що саме подобається',
-          audiencePh: 'Вік, інтереси, географія',
-          techLabel: 'Мультимовність, адаптивність, SEO, інтеграції',
-          techPh: 'Наприклад: мобільна версія, мови, інтеграції з CRM, SEO, аналітика тощо.',
-          budgetPh: 'Вкажіть суму або діапазон',
-          deadlinePh: 'Наприклад: 2 місяці',
-          chooseSupport: 'Оберіть варіант',
-          supportYes: 'Так',
-          supportNo: 'Ні',
-          commentsPh: 'Будь-які додаткові побажання, інтеграції, особливі вимоги',
-          // ... остальные ключи ...
+          // Остальні ключі
           briefTitle: 'Бриф на розробку сайту',
           fullName: 'ПІБ',
           fullNamePh: 'Ваше ім’я та прізвище',
@@ -444,6 +441,13 @@ export default {
         });
         if (response.ok) {
           this.showPopup = true;
+          // Автоматическое закрытие попапа через 10 секунд и редирект
+          setTimeout(() => {
+            this.showPopup = false;
+            this.$router
+              ? this.$router.push('/thanks')
+              : (window.location.href = '/thanks');
+          }, 10000);
         } else {
           alert(this.t('errSend') || 'Ошибка отправки. Попробуйте позже.');
         }
