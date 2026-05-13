@@ -8,6 +8,12 @@ test('emptyForm() returns object with array fields initialised', () => {
   assert.deepEqual(f.features, []);
   assert.deepEqual(f.pages, []);
   assert.deepEqual(f.content, []);
+  assert.deepEqual(f.devices, []);
+  assert.deepEqual(f.integrations, []);
+  assert.equal(f.projectType, '');
+  assert.equal(f.targetAction, '');
+  assert.equal(f.competitors, '');
+  assert.equal(f.hasBrandbook, '');
 });
 
 test('EMAIL_RE matches common emails', () => {
@@ -25,9 +31,11 @@ test('EMAIL_RE rejects invalid emails', () => {
 test('empty form produces errors for every required field (ua)', () => {
   const errors = validateForm(emptyForm(), 'ua');
   const required = [
-    'fullName', 'email', 'phoneOrMessenger', 'goals',
+    'fullName', 'email', 'phoneOrMessenger',
+    'projectType', 'goals', 'targetAction', 'competitors',
     'siteType', 'features', 'designPreferences', 'references',
-    'pages', 'content', 'audience', 'budget', 'deadline', 'support',
+    'hasBrandbook', 'pages', 'content', 'audience', 'devices',
+    'integrations', 'budget', 'deadline', 'support',
   ];
   for (const k of required) {
     assert.ok(errors[k], `expected error for "${k}" but got none`);
@@ -53,21 +61,57 @@ test('a fully filled valid form produces no errors', () => {
     fullName: 'Иван Иванов',
     email: 'ivan@example.com',
     phoneOrMessenger: '+380501234567',
+    projectType: 'new',
     goals: 'Продажи',
+    targetAction: 'Оставить заявку',
+    competitors: 'https://a.com, https://b.com',
     siteType: 'siteTypeShop',
     features: ['basket'],
     designPreferences: 'Светлый минимализм',
     references: 'https://example.com',
+    hasBrandbook: 'no',
     pages: ['home'],
     content: ['logo'],
     audience: '25-45 Украина',
-    budget: '$3000',
+    devices: ['mobile', 'desktop'],
+    integrations: ['none'],
+    budget: 'b_2000_5000',
     deadline: '2 месяца',
-    support: 'supportYes',
+    support: 'supportNo',
   };
   const errors = validateForm(f, 'ru');
   assert.deepEqual(errors, {});
   assert.equal(isValid(errors), true);
+});
+
+test('projectType=redesign requires currentSiteUrl', () => {
+  const f = { ...emptyForm(), projectType: 'redesign' };
+  const errors = validateForm(f, 'ua');
+  assert.ok(errors.currentSiteUrl);
+});
+
+test('hasBrandbook=yes_full requires brandbookLink', () => {
+  const f = { ...emptyForm(), hasBrandbook: 'yes_full' };
+  const errors = validateForm(f, 'ua');
+  assert.ok(errors.brandbookLink);
+});
+
+test('hasBrandbook=no does NOT require brandbookLink', () => {
+  const f = { ...emptyForm(), hasBrandbook: 'no' };
+  const errors = validateForm(f, 'ua');
+  assert.equal(errors.brandbookLink, undefined);
+});
+
+test('support=supportYes requires supportScope', () => {
+  const f = { ...emptyForm(), support: 'supportYes' };
+  const errors = validateForm(f, 'ua');
+  assert.ok(errors.supportScope);
+});
+
+test('support=supportNo does NOT require supportScope', () => {
+  const f = { ...emptyForm(), support: 'supportNo' };
+  const errors = validateForm(f, 'ua');
+  assert.equal(errors.supportScope, undefined);
 });
 
 test('siteType=other requires siteTypeOther', () => {

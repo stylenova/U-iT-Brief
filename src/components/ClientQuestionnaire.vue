@@ -56,6 +56,32 @@
         <textarea v-model="form.aboutCompany" :placeholder="t('aboutCompanyPh')"></textarea>
       </div>
 
+      <!-- 2. О проекте -->
+      <div class="section">
+        <h3>2. {{ t('projectInfoTitle') }} <span class="required">*</span></h3>
+        <div class="radio-group">
+          <label class="radio-inline">
+            <input type="radio" value="new" v-model="form.projectType" />
+            <span>{{ t('projectTypeNew') }}</span>
+          </label>
+          <label class="radio-inline">
+            <input type="radio" value="redesign" v-model="form.projectType" />
+            <span>{{ t('projectTypeRedesign') }}</span>
+          </label>
+        </div>
+        <div v-if="errors.projectType" class="error">{{ errors.projectType }}</div>
+        <div v-if="form.projectType === 'redesign'" style="margin-top:10px;">
+          <label>{{ t('currentSiteUrl') }} <span class="required">*</span></label>
+          <input
+            type="text"
+            v-model="form.currentSiteUrl"
+            :placeholder="t('currentSiteUrlPh')"
+            :class="{ 'has-error': errors.currentSiteUrl }"
+          />
+          <div v-if="errors.currentSiteUrl" class="error">{{ errors.currentSiteUrl }}</div>
+        </div>
+      </div>
+
       <!-- 3. Цели -->
       <div class="section">
         <h3>3. {{ t('goals') }} <span class="required">*</span></h3>
@@ -67,9 +93,31 @@
         <div v-if="errors.goals" class="error">{{ errors.goals }}</div>
       </div>
 
-      <!-- 4. Тип сайта -->
+      <!-- 4. Целевое действие -->
       <div class="section">
-        <h3>4. {{ t('siteType') }} <span class="required">*</span></h3>
+        <h3>4. {{ t('targetAction') }} <span class="required">*</span></h3>
+        <textarea
+          v-model="form.targetAction"
+          :placeholder="t('targetActionPh')"
+          :class="{ 'has-error': errors.targetAction }"
+        ></textarea>
+        <div v-if="errors.targetAction" class="error">{{ errors.targetAction }}</div>
+      </div>
+
+      <!-- 5. Конкуренты -->
+      <div class="section">
+        <h3>5. {{ t('competitors') }} <span class="required">*</span></h3>
+        <textarea
+          v-model="form.competitors"
+          :placeholder="t('competitorsPh')"
+          :class="{ 'has-error': errors.competitors }"
+        ></textarea>
+        <div v-if="errors.competitors" class="error">{{ errors.competitors }}</div>
+      </div>
+
+      <!-- 6. Тип сайта -->
+      <div class="section">
+        <h3>6. {{ t('siteType') }} <span class="required">*</span></h3>
         <select v-model="form.siteType" :class="{ 'has-error': errors.siteType }">
           <option disabled value="">{{ t('chooseSiteType') }}</option>
           <option
@@ -90,9 +138,9 @@
         </div>
       </div>
 
-      <!-- 5. Функционал -->
+      <!-- 7. Функционал -->
       <div class="section" :class="{ 'section-error': errors.features }">
-        <h3>5. {{ t('features') }} <span class="required">*</span></h3>
+        <h3>7. {{ t('features') }} <span class="required">*</span></h3>
         <div class="checkbox-group">
           <div v-for="option in featuresOptions" :key="option.value" class="checkbox-inline">
             <input type="checkbox" :id="'feat_' + option.value" :value="option.value" v-model="form.features" />
@@ -113,9 +161,9 @@
         <div v-if="errors.features" class="error">{{ errors.features }}</div>
       </div>
 
-      <!-- 6. Дизайн -->
+      <!-- 8. Дизайн и брендинг -->
       <div class="section">
-        <h3>6. {{ t('designTitle') }}</h3>
+        <h3>8. {{ t('designTitle') }}</h3>
 
         <label>{{ t('designPreferences') }} <span class="required">*</span></label>
         <textarea
@@ -132,11 +180,30 @@
           :class="{ 'has-error': errors.references }"
         ></textarea>
         <div v-if="errors.references" class="error">{{ errors.references }}</div>
+
+        <label>{{ t('hasBrandbook') }} <span class="required">*</span></label>
+        <select v-model="form.hasBrandbook" :class="{ 'has-error': errors.hasBrandbook }">
+          <option disabled value="">{{ t('chooseOption') }}</option>
+          <option value="yes_full">{{ t('brandbookFull') }}</option>
+          <option value="yes_logo">{{ t('brandbookLogoOnly') }}</option>
+          <option value="no">{{ t('brandbookNo') }}</option>
+        </select>
+        <div v-if="errors.hasBrandbook" class="error">{{ errors.hasBrandbook }}</div>
+        <div v-if="form.hasBrandbook === 'yes_full' || form.hasBrandbook === 'yes_logo'" style="margin-top:10px;">
+          <label>{{ t('brandbookLink') }} <span class="required">*</span></label>
+          <input
+            type="text"
+            v-model="form.brandbookLink"
+            :placeholder="t('brandbookLinkPh')"
+            :class="{ 'has-error': errors.brandbookLink }"
+          />
+          <div v-if="errors.brandbookLink" class="error">{{ errors.brandbookLink }}</div>
+        </div>
       </div>
 
-      <!-- 7. Страницы -->
+      <!-- 9. Страницы -->
       <div class="section" :class="{ 'section-error': errors.pages }">
-        <h3>7. {{ t('pages') }} <span class="required">*</span></h3>
+        <h3>9. {{ t('pages') }} <span class="required">*</span></h3>
         <div class="checkbox-group">
           <div v-for="option in pagesOptions" :key="option.value" class="checkbox-inline">
             <input type="checkbox" :id="'page_' + option.value" :value="option.value" v-model="form.pages" />
@@ -157,9 +224,9 @@
         <div v-if="errors.pages" class="error">{{ errors.pages }}</div>
       </div>
 
-      <!-- 8. Контент -->
+      <!-- 10. Контент -->
       <div class="section" :class="{ 'section-error': errors.content }">
-        <h3>8. {{ t('content') }} <span class="required">*</span></h3>
+        <h3>10. {{ t('content') }} <span class="required">*</span></h3>
         <div class="checkbox-group">
           <div v-for="option in contentOptions" :key="option.value" class="checkbox-inline">
             <input type="checkbox" :id="'content_' + option.value" :value="option.value" v-model="form.content" />
@@ -173,35 +240,70 @@
         <div v-if="errors.content" class="error">{{ errors.content }}</div>
       </div>
 
-      <!-- 9. Аудитория -->
-      <div class="section">
-        <h3>9. {{ t('audience') }} <span class="required">*</span></h3>
+      <!-- 11. Аудитория -->
+      <div class="section" :class="{ 'section-error': errors.devices }">
+        <h3>11. {{ t('audience') }} <span class="required">*</span></h3>
         <textarea
           v-model="form.audience"
           :placeholder="t('audiencePh')"
           :class="{ 'has-error': errors.audience }"
         ></textarea>
         <div v-if="errors.audience" class="error">{{ errors.audience }}</div>
+
+        <label style="margin-top:10px;display:block;">{{ t('devicesLabel') }} <span class="required">*</span></label>
+        <div class="checkbox-group">
+          <div v-for="option in devicesOptions" :key="option.value" class="checkbox-inline">
+            <input type="checkbox" :id="'dev_' + option.value" :value="option.value" v-model="form.devices" />
+            <label :for="'dev_' + option.value">{{ option.label }}</label>
+          </div>
+        </div>
+        <div v-if="errors.devices" class="error">{{ errors.devices }}</div>
       </div>
 
-      <!-- 10. Технические требования -->
+      <!-- 12. Технические требования -->
       <div class="section">
-        <h3>10. {{ t('techTitle') }}</h3>
+        <h3>12. {{ t('techTitle') }}</h3>
         <label>{{ t('techLabel') }}</label>
         <textarea v-model="form.tech" :placeholder="t('techPh')"></textarea>
       </div>
 
-      <!-- 11. Бюджет и сроки -->
+      <!-- 13. Интеграции -->
+      <div class="section" :class="{ 'section-error': errors.integrations }">
+        <h3>13. {{ t('integrationsTitle') }} <span class="required">*</span></h3>
+        <div class="checkbox-group">
+          <div v-for="option in integrationsOptions" :key="option.value" class="checkbox-inline">
+            <input type="checkbox" :id="'int_' + option.value" :value="option.value" v-model="form.integrations" />
+            <label :for="'int_' + option.value">{{ option.label }}</label>
+          </div>
+          <div class="checkbox-inline">
+            <input type="checkbox" id="integrationOther" value="other" v-model="form.integrations" />
+            <label for="integrationOther">{{ t('other') }}:</label>
+            <input
+              v-if="form.integrations.includes('other')"
+              type="text"
+              v-model="form.integrationsOther"
+              :placeholder="t('describePh')"
+              style="margin-left:10px;flex:1;min-width:120px;"
+            />
+          </div>
+        </div>
+        <div v-if="errors.integrations" class="error">{{ errors.integrations }}</div>
+      </div>
+
+      <!-- 14. Бюджет и сроки -->
       <div class="section">
-        <h3>11. {{ t('budgetTitle') }}</h3>
+        <h3>14. {{ t('budgetTitle') }}</h3>
 
         <label>{{ t('budget') }} <span class="required">*</span></label>
-        <input
-          type="text"
-          v-model="form.budget"
-          :placeholder="t('budgetPh')"
-          :class="{ 'has-error': errors.budget }"
-        />
+        <select v-model="form.budget" :class="{ 'has-error': errors.budget }">
+          <option disabled value="">{{ t('chooseBudget') }}</option>
+          <option value="b_lt500">{{ t('budgetLt500') }}</option>
+          <option value="b_500_2000">{{ t('budget500_2000') }}</option>
+          <option value="b_2000_5000">{{ t('budget2000_5000') }}</option>
+          <option value="b_5000_10000">{{ t('budget5000_10000') }}</option>
+          <option value="b_gt10000">{{ t('budgetGt10000') }}</option>
+          <option value="b_discuss">{{ t('budgetDiscuss') }}</option>
+        </select>
         <div v-if="errors.budget" class="error">{{ errors.budget }}</div>
 
         <label>{{ t('deadline') }} <span class="required">*</span></label>
@@ -230,9 +332,9 @@
         </div>
       </div>
 
-      <!-- 12. Поддержка -->
+      <!-- 15. Поддержка -->
       <div class="section">
-        <h3>12. {{ t('supportTitle') }}</h3>
+        <h3>15. {{ t('supportTitle') }} <span class="required">*</span></h3>
         <select v-model="form.support" :class="{ 'has-error': errors.support }">
           <option disabled value="">{{ t('chooseSupport') }}</option>
           <option value="supportYes">{{ t('supportYes') }}</option>
@@ -249,11 +351,21 @@
           />
           <div v-if="errors.supportOther" class="error">{{ errors.supportOther }}</div>
         </div>
+        <div v-if="form.support === 'supportYes'" style="margin-top:10px;">
+          <label>{{ t('supportScope') }} <span class="required">*</span></label>
+          <select v-model="form.supportScope" :class="{ 'has-error': errors.supportScope }">
+            <option disabled value="">{{ t('chooseOption') }}</option>
+            <option value="one_time">{{ t('supportOneTime') }}</option>
+            <option value="monthly">{{ t('supportMonthly') }}</option>
+            <option value="sla">{{ t('supportSla') }}</option>
+          </select>
+          <div v-if="errors.supportScope" class="error">{{ errors.supportScope }}</div>
+        </div>
       </div>
 
-      <!-- 13. Комментарии -->
+      <!-- 16. Комментарии -->
       <div class="section">
-        <h3>13. {{ t('commentsTitle') }}</h3>
+        <h3>16. {{ t('commentsTitle') }}</h3>
         <textarea v-model="form.comments" :placeholder="t('commentsPh')"></textarea>
       </div>
 
@@ -286,6 +398,7 @@ const TRANSLATIONS = {
 
     other: 'Інше',
     describePh: 'Опишіть',
+    chooseOption: 'Оберіть варіант',
 
     contactsTitle: 'Контактні дані',
     fullName: 'ПІБ',
@@ -299,8 +412,20 @@ const TRANSLATIONS = {
     aboutCompany: 'Про компанію/проєкт',
     aboutCompanyPh: 'Коротко опишіть сферу діяльності, особливості, переваги',
 
+    projectInfoTitle: 'Про проєкт',
+    projectTypeNew: 'Новий сайт з нуля',
+    projectTypeRedesign: 'Редизайн / переробка існуючого',
+    currentSiteUrl: 'Посилання на поточний сайт',
+    currentSiteUrlPh: 'https://... + коротко: що подобається / не подобається',
+
     goals: 'Цілі та задачі сайту',
     goalsPh: 'Навіщо потрібен сайт? Які задачі він має вирішувати?',
+
+    targetAction: 'Цільова дія відвідувача',
+    targetActionPh: 'Що має зробити відвідувач: купити, залишити заявку, зателефонувати, записатися, завантажити…',
+
+    competitors: 'Конкуренти / приклади',
+    competitorsPh: '2–3 посилання на сайти конкурентів або схожі проєкти. Що подобається / не подобається у кожного?',
 
     siteType: 'Тип сайту',
     chooseSiteType: 'Оберіть тип сайту',
@@ -321,11 +446,17 @@ const TRANSLATIONS = {
     f_account: 'Особистий кабінет',
     f_filters: 'Фільтри для пошуку',
 
-    designTitle: 'Дизайн і референси',
+    designTitle: 'Дизайн і брендинг',
     designPreferences: 'Дизайн',
     designPreferencesPh: 'Опишіть ваші побажання щодо стилю, кольорів, атмосфери',
     references: 'Референси',
     referencesPh: 'Вставте посилання й опишіть, що саме подобається',
+    hasBrandbook: 'Чи є фірмовий стиль?',
+    brandbookFull: 'Так, є повний брендбук (логотип, кольори, шрифти)',
+    brandbookLogoOnly: 'Є тільки логотип',
+    brandbookNo: 'Немає, потрібно розробити',
+    brandbookLink: 'Посилання на брендбук / лого',
+    brandbookLinkPh: 'Посилання на Figma / Drive / архів',
 
     pages: 'Сторінки',
     p_home: 'Головна',
@@ -349,15 +480,35 @@ const TRANSLATIONS = {
     contentHelp: 'Якщо чогось немає — потрібна допомога у створенні?',
 
     audience: 'Цільова аудиторія',
-    audiencePh: 'Вік, інтереси, географія',
+    audiencePh: 'Вік, стать, інтереси, географія, рівень доходу',
+    devicesLabel: 'Які пристрої найважливіші?',
+    dev_mobile: 'Смартфон',
+    dev_tablet: 'Планшет',
+    dev_desktop: 'Десктоп',
 
-    techTitle: 'Мультимовність, адаптивність, SEO, інтеграції',
-    techLabel: 'Мультимовність, адаптивність, SEO, інтеграції',
-    techPh: 'Наприклад: мобільна версія, мови, інтеграції з CRM, SEO, аналітика тощо.',
+    techTitle: 'Технічні вимоги',
+    techLabel: 'Мультимовність, адаптивність, SEO, CMS, хостинг тощо',
+    techPh: 'Наприклад: WordPress / Laravel, мови інтерфейсу, домен/хостинг, окремі вимоги до SEO',
+
+    integrationsTitle: 'Інтеграції',
+    int_crm: 'CRM (Bitrix24, amoCRM, HubSpot)',
+    int_payment: 'Платіжні системи (LiqPay, Fondy, Stripe)',
+    int_analytics: 'Аналітика (GA4, GTM, Hotjar)',
+    int_chat: 'Онлайн-чат (Tawk, JivoSite)',
+    int_email: 'Email-розсилки (MailChimp, SendPulse)',
+    int_social: 'Соцмережі / месенджери',
+    int_erp: '1С / ERP / склад',
+    int_none: 'Не потрібні',
 
     budgetTitle: 'Бюджет і терміни',
     budget: 'Бюджет',
-    budgetPh: 'Вкажіть суму або діапазон',
+    chooseBudget: 'Оберіть діапазон',
+    budgetLt500: 'до $500',
+    budget500_2000: '$500 – $2 000',
+    budget2000_5000: '$2 000 – $5 000',
+    budget5000_10000: '$5 000 – $10 000',
+    budgetGt10000: 'понад $10 000',
+    budgetDiscuss: 'Обговорюється',
     deadline: 'Терміни',
     deadlinePh: 'Наприклад: 2 місяці',
     startDate: 'Дата старту',
@@ -367,6 +518,10 @@ const TRANSLATIONS = {
     chooseSupport: 'Оберіть варіант',
     supportYes: 'Так',
     supportNo: 'Ні',
+    supportScope: 'Обсяг підтримки',
+    supportOneTime: 'Разові правки за запитом',
+    supportMonthly: 'Щомісячне обслуговування (фікс. години)',
+    supportSla: 'SLA з гарантованим часом реакції',
 
     commentsTitle: 'Додаткові коментарі',
     commentsPh: 'Будь-які додаткові побажання, інтеграції, особливі вимоги',
@@ -386,6 +541,7 @@ const TRANSLATIONS = {
 
     other: 'Другое',
     describePh: 'Опишите',
+    chooseOption: 'Выберите вариант',
 
     contactsTitle: 'Контактные данные',
     fullName: 'ФИО',
@@ -399,8 +555,20 @@ const TRANSLATIONS = {
     aboutCompany: 'О компании/проекте',
     aboutCompanyPh: 'Кратко опишите сферу деятельности, особенности, преимущества',
 
+    projectInfoTitle: 'О проекте',
+    projectTypeNew: 'Новый сайт с нуля',
+    projectTypeRedesign: 'Редизайн / переделка существующего',
+    currentSiteUrl: 'Ссылка на текущий сайт',
+    currentSiteUrlPh: 'https://... + кратко: что нравится / не нравится',
+
     goals: 'Цели и задачи сайта',
     goalsPh: 'Зачем нужен сайт? Какие задачи он должен решать?',
+
+    targetAction: 'Целевое действие посетителя',
+    targetActionPh: 'Что должен сделать посетитель: купить, оставить заявку, позвонить, записаться, скачать…',
+
+    competitors: 'Конкуренты / примеры',
+    competitorsPh: '2–3 ссылки на сайты конкурентов или похожие проекты. Что нравится / не нравится у каждого?',
 
     siteType: 'Тип сайта',
     chooseSiteType: 'Выберите тип сайта',
@@ -421,11 +589,17 @@ const TRANSLATIONS = {
     f_account: 'Личный кабинет',
     f_filters: 'Фильтры для поиска',
 
-    designTitle: 'Дизайн и референсы',
+    designTitle: 'Дизайн и брендинг',
     designPreferences: 'Дизайн',
     designPreferencesPh: 'Опишите ваши пожелания по стилю, цветам, атмосфере',
     references: 'Референсы',
     referencesPh: 'Вставьте ссылки и опишите, что именно нравится',
+    hasBrandbook: 'Есть ли фирменный стиль?',
+    brandbookFull: 'Да, есть полный брендбук (логотип, цвета, шрифты)',
+    brandbookLogoOnly: 'Есть только логотип',
+    brandbookNo: 'Нет, нужно разработать',
+    brandbookLink: 'Ссылка на брендбук / лого',
+    brandbookLinkPh: 'Ссылка на Figma / Drive / архив',
 
     pages: 'Страницы',
     p_home: 'Главная',
@@ -449,15 +623,35 @@ const TRANSLATIONS = {
     contentHelp: 'Если чего-то нет — нужна ли помощь в создании?',
 
     audience: 'Целевая аудитория',
-    audiencePh: 'Возраст, интересы, география',
+    audiencePh: 'Возраст, пол, интересы, география, уровень дохода',
+    devicesLabel: 'Какие устройства важнее всего?',
+    dev_mobile: 'Смартфон',
+    dev_tablet: 'Планшет',
+    dev_desktop: 'Десктоп',
 
-    techTitle: 'Мультиязычность, адаптивность, SEO, интеграции',
-    techLabel: 'Мультиязычность, адаптивность, SEO, интеграции',
-    techPh: 'Например: мобильная версия, языки, интеграции с CRM, SEO, аналитика и т.д.',
+    techTitle: 'Технические требования',
+    techLabel: 'Мультиязычность, адаптивность, SEO, CMS, хостинг и т.д.',
+    techPh: 'Например: WordPress / Laravel, языки интерфейса, домен/хостинг, особые требования к SEO',
+
+    integrationsTitle: 'Интеграции',
+    int_crm: 'CRM (Bitrix24, amoCRM, HubSpot)',
+    int_payment: 'Платёжные системы (LiqPay, Fondy, Stripe)',
+    int_analytics: 'Аналитика (GA4, GTM, Hotjar)',
+    int_chat: 'Онлайн-чат (Tawk, JivoSite)',
+    int_email: 'Email-рассылки (MailChimp, SendPulse)',
+    int_social: 'Соцсети / мессенджеры',
+    int_erp: '1С / ERP / склад',
+    int_none: 'Не нужны',
 
     budgetTitle: 'Бюджет и сроки',
     budget: 'Бюджет',
-    budgetPh: 'Укажите сумму или диапазон',
+    chooseBudget: 'Выберите диапазон',
+    budgetLt500: 'до $500',
+    budget500_2000: '$500 – $2 000',
+    budget2000_5000: '$2 000 – $5 000',
+    budget5000_10000: '$5 000 – $10 000',
+    budgetGt10000: 'свыше $10 000',
+    budgetDiscuss: 'Обсуждается',
     deadline: 'Сроки',
     deadlinePh: 'Например: 2 месяца',
     startDate: 'Дата старта',
@@ -467,6 +661,10 @@ const TRANSLATIONS = {
     chooseSupport: 'Выберите вариант',
     supportYes: 'Да',
     supportNo: 'Нет',
+    supportScope: 'Объём поддержки',
+    supportOneTime: 'Разовые правки по запросу',
+    supportMonthly: 'Ежемесячное обслуживание (фикс. часы)',
+    supportSla: 'SLA с гарантированным временем реакции',
 
     commentsTitle: 'Дополнительные комментарии',
     commentsPh: 'Любые дополнительные пожелания, интеграции, особые требования',
@@ -485,6 +683,8 @@ const TRANSLATIONS = {
 const FEATURE_KEYS = ['basket', 'payment', 'reviews', 'contactForm', 'calculator', 'account', 'filters'];
 const PAGE_KEYS = ['home', 'about', 'contacts', 'blog', 'catalog', 'product', 'basket', 'order', 'account', 'privacy', 'return', '404'];
 const CONTENT_KEYS = ['logo', 'texts', 'images', 'video'];
+const DEVICE_KEYS = ['mobile', 'tablet', 'desktop'];
+const INTEGRATION_KEYS = ['crm', 'payment', 'analytics', 'chat', 'email', 'social', 'erp', 'none'];
 
 const API_URL = 'https://v1.nocodeapi.com/stylenova/telegram/GnNGVfrFyUpLIQxD';
 const REDIRECT_URL = '/thanks.html';
@@ -515,6 +715,12 @@ export default {
     },
     contentOptions() {
       return CONTENT_KEYS.map((k) => ({ value: k, label: this.t('c_' + k) }));
+    },
+    devicesOptions() {
+      return DEVICE_KEYS.map((k) => ({ value: k, label: this.t('dev_' + k) }));
+    },
+    integrationsOptions() {
+      return INTEGRATION_KEYS.map((k) => ({ value: k, label: this.t('int_' + k) }));
     },
     hasErrors() {
       return Object.keys(this.errors).length > 0;
@@ -564,37 +770,71 @@ export default {
       const featuresList = (f.features || []).filter((v) => v !== 'other').map((v) => `• ${this.t('f_' + v)}`).join('\n');
       const pagesList = (f.pages || []).filter((v) => v !== 'other').map((v) => `• ${this.t('p_' + v)}`).join('\n');
       const contentList = (f.content || []).filter((v) => v !== 'contentHelp').map((v) => `• ${this.t('c_' + v)}`).join('\n');
+      const devicesList = (f.devices || []).map((v) => this.t('dev_' + v)).join(', ');
+      const integrationsList = (f.integrations || []).filter((v) => v !== 'other').map((v) => `• ${this.t('int_' + v)}`).join('\n');
       const startDate = this.formatStartDate();
+      const projectTypeLabel = f.projectType === 'new'
+        ? this.t('projectTypeNew')
+        : (f.projectType === 'redesign' ? this.t('projectTypeRedesign') : '-');
+      const brandbookLabel = f.hasBrandbook
+        ? this.t(f.hasBrandbook === 'yes_full' ? 'brandbookFull' : (f.hasBrandbook === 'yes_logo' ? 'brandbookLogoOnly' : 'brandbookNo'))
+        : '-';
+      const budgetLabel = f.budget ? this.t({
+        b_lt500: 'budgetLt500',
+        b_500_2000: 'budget500_2000',
+        b_2000_5000: 'budget2000_5000',
+        b_5000_10000: 'budget5000_10000',
+        b_gt10000: 'budgetGt10000',
+        b_discuss: 'budgetDiscuss',
+      }[f.budget] || 'budget') : '-';
+      const supportLabel = f.support === 'other'
+        ? f.supportOther
+        : (f.support ? this.t(f.support) : '-');
+      const supportScopeLabel = f.support === 'supportYes' && f.supportScope
+        ? this.t({ one_time: 'supportOneTime', monthly: 'supportMonthly', sla: 'supportSla' }[f.supportScope])
+        : '';
 
       if (this.lang === 'ua') {
         return `<b>📝 Бриф на розробку сайту</b>\n\n` +
           `<b>👤 Контактні дані</b>\nПІБ: <b>${f.fullName}</b>\nEmail: <b>${f.email}</b>\nТелефон/месенджер: <b>${f.phoneOrMessenger}</b>\nКомпанія/проєкт: ${f.company || '-'}\n\n` +
           `<b>ℹ️ Про компанію/проєкт</b>\n${f.aboutCompany || '-'}\n\n` +
+          `<b>🆕 Тип проєкту</b>: ${projectTypeLabel}` +
+            `${f.projectType === 'redesign' ? `\nПоточний сайт: ${f.currentSiteUrl || '-'}` : ''}\n\n` +
           `<b>🎯 Цілі та задачі</b>\n${f.goals || '-'}\n\n` +
+          `<b>🎬 Цільова дія</b>\n${f.targetAction || '-'}\n\n` +
+          `<b>🥇 Конкуренти</b>\n${f.competitors || '-'}\n\n` +
           `<b>🌐 Тип сайту</b>\n${f.siteType === 'other' ? f.siteTypeOther : this.t(f.siteType)}\n\n` +
           `<b>⚙️ Функціонал</b>\n${featuresList || '-'}${f.featuresOther ? `\nІнше: ${f.featuresOther}` : ''}\n\n` +
-          `<b>🎨 Дизайн та референси</b>\nПобажання: ${f.designPreferences || '-'}\nРеференси: ${f.references || '-'}\n\n` +
+          `<b>🎨 Дизайн та брендинг</b>\nПобажання: ${f.designPreferences || '-'}\nРеференси: ${f.references || '-'}\nБрендбук: ${brandbookLabel}` +
+            `${(f.hasBrandbook === 'yes_full' || f.hasBrandbook === 'yes_logo') ? `\nПосилання: ${f.brandbookLink || '-'}` : ''}\n\n` +
           `<b>📄 Сторінки</b>\n${pagesList || '-'}${f.pagesOther ? `\nІнше: ${f.pagesOther}` : ''}\n\n` +
           `<b>🖼️ Контент</b>\n${contentList || '-'}\n\n` +
-          `<b>👥 Цільова аудиторія</b>\n${f.audience || '-'}\n\n` +
+          `<b>👥 Цільова аудиторія</b>\n${f.audience || '-'}\nПристрої: ${devicesList || '-'}\n\n` +
           `<b>🛠️ Технічні вимоги</b>\n${f.tech || '-'}\n\n` +
-          `<b>💰 Бюджет</b>: ${f.budget || '-'}\n<b>⏳ Термін</b>: ${f.deadline || '-'}\n<b>📅 Дата старту</b>: ${startDate || '-'}\n\n` +
-          `<b>🤝 Підтримка</b>\n${f.support === 'other' ? f.supportOther : this.t(f.support)}\n\n` +
+          `<b>🔌 Інтеграції</b>\n${integrationsList || '-'}${f.integrationsOther ? `\nІнше: ${f.integrationsOther}` : ''}\n\n` +
+          `<b>💰 Бюджет</b>: ${budgetLabel}\n<b>⏳ Термін</b>: ${f.deadline || '-'}\n<b>📅 Дата старту</b>: ${startDate || '-'}\n\n` +
+          `<b>🤝 Підтримка</b>: ${supportLabel}${supportScopeLabel ? `\nОбсяг: ${supportScopeLabel}` : ''}\n\n` +
           `<b>💬 Додаткові коментарі</b>\n${f.comments || '-'}`;
       }
       return `<b>📝 Бриф на разработку сайта</b>\n\n` +
         `<b>👤 Контактные данные</b>\nФИО: <b>${f.fullName}</b>\nEmail: <b>${f.email}</b>\nТелефон/мессенджер: <b>${f.phoneOrMessenger}</b>\nКомпания/проект: ${f.company || '-'}\n\n` +
         `<b>ℹ️ О компании/проекте</b>\n${f.aboutCompany || '-'}\n\n` +
+        `<b>🆕 Тип проекта</b>: ${projectTypeLabel}` +
+          `${f.projectType === 'redesign' ? `\nТекущий сайт: ${f.currentSiteUrl || '-'}` : ''}\n\n` +
         `<b>🎯 Цели и задачи</b>\n${f.goals || '-'}\n\n` +
+        `<b>🎬 Целевое действие</b>\n${f.targetAction || '-'}\n\n` +
+        `<b>🥇 Конкуренты</b>\n${f.competitors || '-'}\n\n` +
         `<b>🌐 Тип сайта</b>\n${f.siteType === 'other' ? f.siteTypeOther : this.t(f.siteType)}\n\n` +
         `<b>⚙️ Функционал</b>\n${featuresList || '-'}${f.featuresOther ? `\nДругое: ${f.featuresOther}` : ''}\n\n` +
-        `<b>🎨 Дизайн и референсы</b>\nПожелания: ${f.designPreferences || '-'}\nРеференсы: ${f.references || '-'}\n\n` +
+        `<b>🎨 Дизайн и брендинг</b>\nПожелания: ${f.designPreferences || '-'}\nРеференсы: ${f.references || '-'}\nБрендбук: ${brandbookLabel}` +
+          `${(f.hasBrandbook === 'yes_full' || f.hasBrandbook === 'yes_logo') ? `\nСсылка: ${f.brandbookLink || '-'}` : ''}\n\n` +
         `<b>📄 Страницы</b>\n${pagesList || '-'}${f.pagesOther ? `\nДругое: ${f.pagesOther}` : ''}\n\n` +
         `<b>🖼️ Контент</b>\n${contentList || '-'}\n\n` +
-        `<b>👥 Целевая аудитория</b>\n${f.audience || '-'}\n\n` +
+        `<b>👥 Целевая аудитория</b>\n${f.audience || '-'}\nУстройства: ${devicesList || '-'}\n\n` +
         `<b>🛠️ Технические требования</b>\n${f.tech || '-'}\n\n` +
-        `<b>💰 Бюджет</b>: ${f.budget || '-'}\n<b>⏳ Сроки</b>: ${f.deadline || '-'}\n<b>📅 Дата старта</b>: ${startDate || '-'}\n\n` +
-        `<b>🤝 Поддержка</b>\n${f.support === 'other' ? f.supportOther : this.t(f.support)}\n\n` +
+        `<b>🔌 Интеграции</b>\n${integrationsList || '-'}${f.integrationsOther ? `\nДругое: ${f.integrationsOther}` : ''}\n\n` +
+        `<b>💰 Бюджет</b>: ${budgetLabel}\n<b>⏳ Сроки</b>: ${f.deadline || '-'}\n<b>📅 Дата старта</b>: ${startDate || '-'}\n\n` +
+        `<b>🤝 Поддержка</b>: ${supportLabel}${supportScopeLabel ? `\nОбъём: ${supportScopeLabel}` : ''}\n\n` +
         `<b>💬 Дополнительные комментарии</b>\n${f.comments || '-'}`;
     },
     resetForm() {
@@ -670,6 +910,22 @@ export default {
   border-left: 3px solid #e53935;
   padding-left: 12px;
   margin-left: -15px;
+}
+
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 6px 0 4px;
+}
+.radio-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.radio-inline input[type="radio"] {
+  margin: 0;
 }
 
 .form-error-summary {
