@@ -225,6 +225,7 @@
             :clearable="true"
             auto-apply
             :week-start="1"
+            :teleport="false"
           />
         </div>
       </div>
