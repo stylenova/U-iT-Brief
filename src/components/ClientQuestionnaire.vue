@@ -217,8 +217,9 @@
         <div class="datepicker-wrap">
           <VueDatePicker
             v-model="form.startDate"
-            :locale="lang === 'ru' ? 'ru' : 'uk'"
-            format="dd.MM.yyyy"
+            :format-locale="dpLocale"
+            :format="formatDateDisplay"
+            model-type="yyyy-MM-dd"
             :enable-time-picker="false"
             :placeholder="t('startDatePh')"
             :text-input="false"
@@ -275,6 +276,7 @@
 <script>
 import { VueDatePicker } from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
+import { ru, uk } from 'date-fns/locale';
 import { validateForm, isValid, emptyForm } from '../utils/validation';
 
 const TRANSLATIONS = {
@@ -502,6 +504,9 @@ export default {
     };
   },
   computed: {
+    dpLocale() {
+      return this.lang === 'ru' ? ru : uk;
+    },
     featuresOptions() {
       return FEATURE_KEYS.map((k) => ({ value: k, label: this.t('f_' + k) }));
     },
@@ -520,6 +525,14 @@ export default {
       this.lang = l;
       // Re-translate existing errors so messages match the new language.
       if (this.hasErrors) this.errors = validateForm(this.form, this.lang);
+    },
+    formatDateDisplay(date) {
+      if (!date) return '';
+      const dt = date instanceof Date ? date : new Date(date);
+      if (isNaN(dt.getTime())) return '';
+      const dd = String(dt.getDate()).padStart(2, '0');
+      const mm = String(dt.getMonth() + 1).padStart(2, '0');
+      return `${dd}.${mm}.${dt.getFullYear()}`;
     },
     t(key) {
       const dict = TRANSLATIONS[this.lang] || TRANSLATIONS.ua;
