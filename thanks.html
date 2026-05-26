@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Спасибо за заявку!</title>
+  <title>Дякуємо за заявку!</title>
   <style>
     body { font-family: 'Segoe UI', Arial, sans-serif; background: #eef2f3; margin: 0; }
     .thanks-page { max-width: 500px; margin: 60px auto; padding: 32px; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.08); text-align: center; }
@@ -18,13 +18,42 @@
 <body>
   <div class="thanks-page">
     <div class="emoji">🎉</div>
-    <h1>Спасибо за заявку!</h1>
-    <div class="subtitle">Я получил вашу информацию и скоро свяжусь с вами.</div>
+    <h1 id="title"></h1>
+    <div class="subtitle" id="subtitle"></div>
     <div class="contacts-block">
-      <h2>Связаться напрямую</h2>
-      <div class="direct">Если остались вопросы — напишите мне в Telegram:</div>
+      <h2 id="contactsTitle"></h2>
+      <div class="direct" id="direct"></div>
       <a href="https://t.me/stylenova" target="_blank" class="tg-link">@stylenova</a>
     </div>
   </div>
+  <script>
+    var I18N = {
+      ua: {
+        htmlLang: 'uk',
+        pageTitle: 'Дякуємо за заявку!',
+        title: 'Дякуємо за заявку!',
+        subtitle: 'Я отримав вашу інформацію і незабаром звʼяжуся з вами.',
+        contactsTitle: 'Звʼязатися напряму',
+        direct: 'Якщо залишилися питання — напишіть мені в Telegram:',
+      },
+      ru: {
+        htmlLang: 'ru',
+        pageTitle: 'Спасибо за заявку!',
+        title: 'Спасибо за заявку!',
+        subtitle: 'Я получил вашу информацию и скоро свяжусь с вами.',
+        contactsTitle: 'Связаться напрямую',
+        direct: 'Если остались вопросы — напишите мне в Telegram:',
+      },
+    };
+    var params = new URLSearchParams(window.location.search);
+    var lang = params.get('lang') === 'ru' ? 'ru' : 'ua';
+    var t = I18N[lang];
+    document.documentElement.lang = t.htmlLang;
+    document.title = t.pageTitle;
+    document.getElementById('title').textContent = t.title;
+    document.getElementById('subtitle').textContent = t.subtitle;
+    document.getElementById('contactsTitle').textContent = t.contactsTitle;
+    document.getElementById('direct').textContent = t.direct;
+  </script>
 </body>
 </html>
